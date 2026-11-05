@@ -51,3 +51,59 @@ ventas-multicanal-mongodb/
 │   ├── operaciones_crud.js
 │   └── relacion_lookup.js
 └── README.md
+```
+
+## Consultas implementadas
+
+### Operaciones CRUD
+
+El archivo `consultas/operaciones_crud.js` contiene la inserción de un documento controlado, su consulta mediante filtro y proyección, la actualización del estado y la descripción, la eliminación del registro de prueba y la verificación final de la operación.
+
+### Filtros y operadores
+
+El archivo `consultas/filtros_operadores.js` consulta novedades logísticas mediante el operador `$in` para seleccionar devoluciones, cancelaciones y registros con error. También utiliza `$gte` para establecer un costo de envío mínimo, una proyección de campos y un ordenamiento descendente.
+
+### Relación entre colecciones
+
+El archivo `consultas/relacion_lookup.js` relaciona `ventas_mercado_libre` con `productos` mediante las etapas `$lookup`, `$unwind` y `$project`. El campo utilizado para establecer la relación es `producto_id`.
+
+### Agregaciones
+
+El archivo `consultas/agregaciones.js` incluye el conteo de documentos por estado logístico, la suma del recaudo por transportadora y el promedio del costo de envío por transportadora.
+
+## Resultados principales
+
+La implementación permitió obtener los siguientes resultados:
+
+- 483 documentos con estado `Entregado`.
+- 47 devoluciones.
+- 33 cancelaciones.
+- 27 registros con error.
+- 104 documentos con novedades y costos de envío iguales o superiores a 10.000 COP.
+- Recaudo acumulado de 87.947.300 COP para la transportadora codificada como `T1`.
+- Costo promedio de envío de 28.171,67 COP para `T3`, calculado sobre seis documentos.
+
+Los resultados deben interpretarse teniendo en cuenta la cantidad de documentos correspondiente a cada transportadora.
+
+## Uso de los archivos
+
+Los archivos JSON pueden importarse mediante MongoDB Compass en las siguientes colecciones:
+
+| Archivo | Colección |
+|---|---|
+| `productos.json` | `productos` |
+| `ventas_every_anonimizadas.json` | `ventas_every` |
+| `ventas_mercado_libre_anonimizadas.json` | `ventas_mercado_libre` |
+
+La base de datos utilizada se denomina `ventas_multicanal`. Los archivos de la carpeta `consultas` contienen las operaciones ejecutadas durante la actividad.
+
+## Privacidad
+
+Este repositorio no contiene contraseñas, cadenas de conexión, credenciales de MongoDB Atlas ni archivos originales con datos personales. Los conjuntos publicados corresponden a copias académicas preparadas para excluir identificadores directos y reducir la exposición de información personal y operativa.
+
+## Autor
+
+Camilo Andrés Otálora Pérez  
+Curso Big Data  
+Universidad Nacional Abierta y a Distancia  
+2026
