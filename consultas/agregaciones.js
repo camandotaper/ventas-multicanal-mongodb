@@ -71,3 +71,63 @@ db.ventas_every.aggregate([
     }
   }
 ]);
+
+// 4. VENTAS ACUMULADAS POR PRODUCTO
+db.ventas_mercado_libre.aggregate([
+  {
+    $match: {
+      producto_id: {
+        $ne: null
+      }
+    }
+  },
+  {
+    $group: {
+      _id: "$producto_id",
+      unidades_vendidas: {
+        $sum: {
+          $ifNull: ["$unidades", 0]
+        }
+      },
+      valor_neto_acumulado: {
+        $sum: {
+          $ifNull: ["$total_neto", 0]
+        }
+      },
+      cantidad_registros: {
+        $sum: 1
+      }
+    }
+  },
+  {
+    $sort: {
+      unidades_vendidas: -1,
+      valor_neto_acumulado: -1
+    }
+  },
+  {
+    $lookup: {
+      from: "productos",
+      localField: "_id",
+      foreignField: "producto_id",
+      as: "detalle_producto"
+    }
+  },
+  {
+    $unwind: {
+      path: "$detalle_producto",
+      preserveNullAndEmptyArrays: false
+    }
+  },
+  {
+    $project: {
+      _id: 0,
+      producto_id: "$_id",
+      titulo_producto: "$detalle_producto.titulo_producto",
+      variante_producto: "$detalle_producto.variante",
+      unidades_vendidas: 1,
+      valor_neto_acumulado: 1,
+      cantidad_registros: 1
+    }
+  }
+]);
