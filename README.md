@@ -83,6 +83,9 @@ La implementación permitió obtener los siguientes resultados:
 - Recaudo acumulado de 87.947.300 COP para la transportadora codificada como `T1`.
 - Costo promedio de envío de 28.171,67 COP para `T3`, calculado sobre seis documentos.
 
+- Conversión y validación de `fecha_venta` y `fecha_creacion` como tipo `Date` de MongoDB.
+- Verificación de los campos monetarios como valores enteros y de `contraentrega` como valor booleano.
+- El producto `ET310` ocupó la primera posición del análisis comercial, con 24 unidades distribuidas en 23 registros.
 Los resultados deben interpretarse teniendo en cuenta la cantidad de documentos correspondiente a cada transportadora.
 
 ## Uso de los archivos
